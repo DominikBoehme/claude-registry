@@ -189,13 +189,6 @@
             color: #676767;
         }
         
-        .owner-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
         .no-results {
             text-align: center;
             padding: 60px 20px;
@@ -288,28 +281,6 @@
         let currentFilter = 'Alle';
         let currentSearch = '';
         
-        // Farben für Team-Badges
-        const teamColors = {
-            'Creative Studio': '#00FFD0',
-            'Content Team': '#00FFD0',
-            'B2C Marketing': '#F5F200',
-            'B2B Marketing': '#F5F200',
-            'UX': '#00DFFF',
-            'CRM Team': '#00DFFF',
-            'Analytics Team': '#FF9015',
-            'Strategy Team': '#F5F200',
-            'UX Research': '#00DFFF',
-            'Sales Ops': '#00FFD0',
-            'Operations': '#FF9015',
-            'PM Office': '#00DFFF',
-            'Finance': '#F5F200',
-            'UX Team': '#00DFFF',
-            'Market Research': '#FF9015',
-            'Customer Success': '#00DFFF',
-            'HR': '#F5F200',
-            'Unbekannt': '#F5F5F5'
-        };
-        
         // Projekt-Daten beim Laden der Seite abrufen
         async function loadProjects() {
             try {
@@ -351,15 +322,21 @@
         
         // SharePoint-Projekt zu einfacher Struktur konvertieren
         function convertSharePointProject(spProject) {
+            // Owner-Person aus Author-Feld oder Owner-Feld extrahieren
+            let ownerName = 'Unbekannt';
+            if (spProject.Author && spProject.Author.Title) {
+                ownerName = spProject.Author.Title;
+            } else if (spProject.Owner && spProject.Owner.Value) {
+                ownerName = spProject.Owner.Value;
+            }
+            
             return {
                 name: spProject.Title || 'Unbenannt',
                 description: spProject.Beschreibung || 'Keine Beschreibung',
                 category: spProject.Kategorie && spProject.Kategorie.length > 0 
                     ? spProject.Kategorie[0].Value 
                     : 'Sonstige',
-                team: spProject.Owner && spProject.Owner.Value 
-                    ? spProject.Owner.Value 
-                    : 'Unbekannt',
+                owner: ownerName,
                 link: spProject.Link || '',
                 status: spProject.Status && spProject.Status.Value 
                     ? spProject.Status.Value 
@@ -425,7 +402,7 @@
                 filteredProjects = filteredProjects.filter(p => 
                     p.name.toLowerCase().includes(searchLower) ||
                     p.description.toLowerCase().includes(searchLower) ||
-                    p.team.toLowerCase().includes(searchLower)
+                    p.owner.toLowerCase().includes(searchLower)
                 );
             }
             
@@ -441,7 +418,6 @@
             
             // Projekte rendern
             container.innerHTML = filteredProjects.map(project => {
-                const teamColor = teamColors[project.team] || '#F5F5F5';
                 const hasLink = project.link && project.link !== '';
                 const clickableClass = hasLink ? 'clickable' : '';
                 const linkAttr = hasLink ? `data-link="${project.link}"` : '';
@@ -463,7 +439,7 @@
                             </div>
                             <div class="meta-item">
                                 <span class="meta-label">Owner:</span>
-                                <span class="owner-badge" style="background-color: ${teamColor};">${project.team}</span>
+                                <span class="meta-value">${project.owner}</span>
                             </div>
                         </div>
                     </div>
