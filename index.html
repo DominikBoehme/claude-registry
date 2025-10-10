@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claude-Projekt Registry</title>
+    <title>Claude Registry Dashboard</title>
     <style>
         @import url("https://www.static-immobilienscout24.de/fro/make-it-sans/1001/makeitsans.css");
         
@@ -284,13 +284,13 @@
     <div class="main-container">
         <div class="add-button-container">
             <a href="https://gs24.sharepoint.com/sites/S24_CreativeStudio/Lists/Claude%20Projects%20Registry/AllItems.aspx?env=WebViewList" target="_blank" class="add-btn">
-                Hinzufügen
+                Add New
             </a>
         </div>
         
         <div class="title-section">
-            <h1>Claude-Projekt Registry</h1>
-            <p>Zentrale Übersicht aller Claude-Projekte • AI-gestützte Suche • Keine doppelte Entwicklung mehr</p>
+            <h1>Claude Registry Dashboard</h1>
+            <p>Overview of projects and artifacts from the Marketing department</p>
         </div>
         
         <div id="errorContainer"></div>
@@ -304,7 +304,7 @@
                 type="text" 
                 class="search-input" 
                 id="searchInput" 
-                placeholder="Projekt suchen..."
+                placeholder="Search projects..."
             >
         </div>
         
@@ -313,24 +313,24 @@
         </div>
         
         <div id="noResults" class="no-results" style="display: none;">
-            Keine Projekte gefunden.
+            No projects found.
         </div>
     </div>
 
     <script>
-        // JSON-URL - relative URL funktioniert automatisch auf GitHub Pages
+        // JSON URL - relative URL works automatically on GitHub Pages
         const JSON_FILE_URL = './claude_registry_data.json';
         
-        // Globale Variablen
+        // Global variables
         let projectsData = null;
         let allProjects = [];
-        let currentFilter = 'Alle';
+        let currentFilter = 'All';
         let currentSearch = '';
         
-        // Projekt-Daten beim Laden der Seite abrufen
+        // Load project data on page load
         async function loadProjects() {
             try {
-                // Cache-Busting: Füge Timestamp zur URL hinzu
+                // Cache-busting: Add timestamp to URL
                 const timestamp = new Date().getTime();
                 const response = await fetch(`${JSON_FILE_URL}?t=${timestamp}`, {
                     cache: 'no-cache'
@@ -341,87 +341,89 @@
                 }
                 
                 projectsData = await response.json();
-                console.log('Projekte geladen:', projectsData);
+                console.log('Projects loaded:', projectsData);
                 
-                // SharePoint-Projekte konvertieren
+                // Convert SharePoint projects
                 allProjects = projectsData.projects.map(convertSharePointProject);
                 
-                // Filter-Buttons erstellen
+                // Create filter buttons
                 createFilterButtons();
                 
-                // Projekte anzeigen
+                // Display projects
                 renderProjects();
                 
             } catch (error) {
-                console.error('Fehler beim Laden der Projekt-Daten:', error);
+                console.error('Error loading project data:', error);
                 showError(error);
             }
         }
         
-        // Fehler anzeigen
+        // Show error
         function showError(error) {
             const errorContainer = document.getElementById('errorContainer');
             errorContainer.innerHTML = `
                 <div class="error-box">
-                    <h3>Fehler beim Laden der Daten</h3>
-                    <p>Projekt-Daten konnten nicht geladen werden: ${error.message}</p>
-                    <p>Bitte überprüfe die JSON-URL in der Konfiguration oder kontaktiere den Administrator.</p>
+                    <h3>Error Loading Data</h3>
+                    <p>Project data could not be loaded: ${error.message}</p>
+                    <p>Please check the JSON URL in the configuration or contact the administrator.</p>
                 </div>
             `;
         }
         
-        // SharePoint-Projekt zu einfacher Struktur konvertieren
+        // Convert SharePoint project to simple structure
         function convertSharePointProject(spProject) {
-            // Owner-Person aus Author-Feld oder Owner-Feld extrahieren
-            let ownerName = 'Unbekannt';
-            if (spProject.Author && spProject.Author.Title) {
+            // Extract owner person from Author field or Owner field
+            let ownerName = 'Unknown';
+            if (spProject.Author && spProject.Author.DisplayName) {
+                ownerName = spProject.Author.DisplayName;
+            } else if (spProject.Author && spProject.Author.Title) {
                 ownerName = spProject.Author.Title;
             } else if (spProject.Owner && spProject.Owner.Value) {
                 ownerName = spProject.Owner.Value;
             }
             
             return {
-                name: spProject.Title || 'Unbenannt',
-                description: spProject.Beschreibung || 'Keine Beschreibung',
+                name: spProject.Title || 'Untitled',
+                description: spProject.Beschreibung || 'No description',
                 category: spProject.Kategorie && spProject.Kategorie.length > 0 
                     ? spProject.Kategorie[0].Value 
-                    : 'Sonstige',
+                    : 'Other',
                 owner: ownerName,
                 link: spProject.Link || '',
                 status: spProject.Status && spProject.Status.Value 
                     ? spProject.Status.Value 
-                    : 'Unbekannt',
+                    : 'Unknown',
                 type: spProject.ProjectorArtefact && spProject.ProjectorArtefact.Value 
                     ? spProject.ProjectorArtefact.Value 
                     : 'Claude-Project'
             };
         }
         
-        // Filter-Buttons erstellen
+        // Create filter buttons
         function createFilterButtons() {
             const filterContainer = document.getElementById('filterButtons');
             
-            // Alle Kategorien sammeln
+            // Collect all categories
             const categories = new Set();
             allProjects.forEach(project => {
                 categories.add(project.category);
             });
             
-            // Sortierte Kategorien-Array
-            const sortedCategories = ['Alle', ...Array.from(categories).sort()];
+            // Sorted categories array
+            const sortedCategories = ['All', ...Array.from(categories).sort()];
             
-            // Buttons erstellen
+            // Create buttons
             filterContainer.innerHTML = sortedCategories.map(category => {
                 const activeClass = category === currentFilter ? 'active' : '';
                 return `<button class="filter-btn ${activeClass}" onclick="filterByCategory('${category}')">${category}</button>`;
             }).join('');
         }
         
-        // Nach Kategorie filtern
+        // Filter by category
         function filterByCategory(category) {
             currentFilter = category;
             
-            // Button-Status aktualisieren
+            // Update button states
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent === category) {
@@ -429,24 +431,24 @@
                 }
             });
             
-            // Projekte neu rendern
+            // Re-render projects
             renderProjects();
         }
         
-        // Projekte rendern
+        // Render projects
         function renderProjects() {
             const container = document.getElementById('projectsGrid');
             const noResults = document.getElementById('noResults');
             
-            // Filter anwenden
+            // Apply filters
             let filteredProjects = allProjects;
             
-            // Kategorie-Filter
-            if (currentFilter !== 'Alle') {
+            // Category filter
+            if (currentFilter !== 'All') {
                 filteredProjects = filteredProjects.filter(p => p.category === currentFilter);
             }
             
-            // Such-Filter
+            // Search filter
             if (currentSearch) {
                 const searchLower = currentSearch.toLowerCase();
                 filteredProjects = filteredProjects.filter(p => 
@@ -456,7 +458,7 @@
                 );
             }
             
-            // Keine Ergebnisse?
+            // No results?
             if (filteredProjects.length === 0) {
                 container.style.display = 'none';
                 noResults.style.display = 'block';
@@ -466,13 +468,13 @@
                 noResults.style.display = 'none';
             }
             
-            // Projekte rendern
+            // Render projects
             container.innerHTML = filteredProjects.map(project => {
                 const hasLink = project.link && project.link !== '';
                 const clickableClass = hasLink ? 'clickable' : '';
                 const linkAttr = hasLink ? `data-link="${project.link}"` : '';
                 
-                // Type wird später dynamisch gesetzt, aktuell immer "Project"
+                // Type will be set dynamically later, currently always "Project"
                 let projectType = project.type || 'Claude-Project';
                 // Cleanup: "Claude-Project" → "Project", "Claude-Artefact" → "Artefact"
                 projectType = projectType.replace('Claude-', '');
@@ -486,7 +488,7 @@
                         <div class="project-description">${project.description}</div>
                         <div class="project-meta">
                             <div class="meta-item">
-                                <span class="meta-label">Kategorie:</span>
+                                <span class="meta-label">Category:</span>
                                 <span class="meta-value">${project.category}</span>
                             </div>
                             <div class="meta-item">
@@ -498,7 +500,7 @@
                 `;
             }).join('');
             
-            // Click-Handler für Projekt-Cards mit Links
+            // Click handler for project cards with links
             document.querySelectorAll('.project-card[data-link]').forEach(card => {
                 card.addEventListener('click', function() {
                     const link = this.getAttribute('data-link');
@@ -509,13 +511,13 @@
             });
         }
         
-        // Such-Funktion
+        // Search function
         document.getElementById('searchInput').addEventListener('input', function(e) {
             currentSearch = e.target.value.trim();
             renderProjects();
         });
         
-        // Beim Laden der Seite Projekte abrufen
+        // Load projects when page loads
         window.addEventListener('DOMContentLoaded', loadProjects);
     </script>
 </body>
