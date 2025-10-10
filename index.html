@@ -284,7 +284,11 @@
         // Projekt-Daten beim Laden der Seite abrufen
         async function loadProjects() {
             try {
-                const response = await fetch(JSON_FILE_URL);
+                // Cache-Busting: Füge Timestamp zur URL hinzu
+                const timestamp = new Date().getTime();
+                const response = await fetch(`${JSON_FILE_URL}?t=${timestamp}`, {
+                    cache: 'no-cache'
+                });
                 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
@@ -341,9 +345,9 @@
                 status: spProject.Status && spProject.Status.Value 
                     ? spProject.Status.Value 
                     : 'Unbekannt',
-                type: spProject.Type && spProject.Type.Value 
-                    ? spProject.Type.Value 
-                    : 'Project'
+                type: spProject.ProjectorArtefact && spProject.ProjectorArtefact.Value 
+                    ? spProject.ProjectorArtefact.Value 
+                    : 'Claude-Project'
             };
         }
         
@@ -423,7 +427,9 @@
                 const linkAttr = hasLink ? `data-link="${project.link}"` : '';
                 
                 // Type wird später dynamisch gesetzt, aktuell immer "Project"
-                const projectType = project.type || 'Project';
+                let projectType = project.type || 'Claude-Project';
+                // Cleanup: "Claude-Project" → "Project", "Claude-Artefact" → "Artefact"
+                projectType = projectType.replace('Claude-', '');
                 
                 return `
                     <div class="project-card ${clickableClass}" ${linkAttr}>
