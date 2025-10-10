@@ -18,6 +18,7 @@
             background-color: #fbf8f6;
             color: #333333;
             line-height: 1.5;
+            position: relative;
         }
         
         .main-container {
@@ -25,6 +26,40 @@
             margin: 0 auto;
             width: 100%;
             padding: 60px;
+        }
+        
+        .add-button-container {
+            position: absolute;
+            top: 30px;
+            right: 60px;
+        }
+        
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: #FFFFFF;
+            color: #333333;
+            border: 1px solid #EAEAEA;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: "Make It Sans", Arial, sans-serif;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .add-btn:hover {
+            background-color: #F5F5F5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .add-btn::before {
+            content: "+";
+            font-size: 20px;
+            line-height: 1;
         }
         
         .title-section {
@@ -220,6 +255,11 @@
                 padding: 30px 20px;
             }
             
+            .add-button-container {
+                position: static;
+                margin-bottom: 24px;
+            }
+            
             .title-section h1 {
                 font-size: 26px;
                 line-height: 36px;
@@ -242,6 +282,12 @@
 </head>
 <body>
     <div class="main-container">
+        <div class="add-button-container">
+            <a href="https://gs24.sharepoint.com/sites/S24_CreativeStudio/Lists/Claude%20Projects%20Registry/AllItems.aspx?env=WebViewList" target="_blank" class="add-btn">
+                Hinzufügen
+            </a>
+        </div>
+        
         <div class="title-section">
             <h1>Claude-Projekt Registry</h1>
             <p>Zentrale Übersicht aller Claude-Projekte • AI-gestützte Suche • Keine doppelte Entwicklung mehr</p>
