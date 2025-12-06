@@ -1,0 +1,724 @@
+<style>
+  /* =========================================================
+     aem_core
+     Zentrales Stylesheet für alle AEM-Landingpage-Module
+
+     - Typografie-Tokens (Headings, Body)
+     - Buttons & Textlinks
+     - Grid & Layout-Utilities
+     - Abstände & Spacer-Module
+     - Modul-spezifische Styles (Hero, Teaser, USP, Steps, KPIs, eKomi, Accordion, Checkmark-List)
+
+     Hinweis:
+     Dieses Stylesheet ist so aufgebaut, dass es direkt in AEM
+     in einen globalen Styles-Bereich eingefügt werden kann.
+     Daher ist der gesamte Inhalt in einen <style>-Block gekapselt.
+     ========================================================= */
+
+  :root {
+    /* Farb-Variablen (können bei Bedarf zentral angepasst werden) */
+    --color-brand: #0089d1;
+    --color-brand-hover: #0072ad;
+    --color-brand-soft: #e6f3ff;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #4a4a4a;
+    --color-border-subtle: #e0e0e0;
+    --color-border-strong: #c2c2c2;
+    --color-bg-light: #f7f7f7;
+    --color-bg-card: #ffffff;
+
+    /* Typo & Radius */
+    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --radius-l: 24px;
+    --radius-m: 16px;
+    --radius-pill: 999px;
+
+    /* Spacing-Tokens */
+    --space-xs: 4px;
+    --space-s: 8px;
+    --space-m: 16px;
+    --space-l: 24px;
+    --space-xl: 40px;
+    --space-xxl: 64px;
+
+    /* Shadow-Tokens */
+    --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  /* =========================================
+     1. Typografie – Headings & Body (Token-basiert)
+     ========================================= */
+
+  body {
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+  }
+
+  /* Headline Tokens – Desktop */
+  .heading-xlarge-regular { font-size: 48px; line-height: 58px; font-weight: 400; }
+  .heading-xlarge-bold    { font-size: 48px; line-height: 58px; font-weight: 700; }
+
+  .heading-large-regular  { font-size: 34px; line-height: 44px; font-weight: 400; }
+  .heading-large-bold     { font-size: 34px; line-height: 44px; font-weight: 700; }
+
+  .heading-medium-regular { font-size: 26px; line-height: 34px; font-weight: 400; }
+  .heading-medium-bold    { font-size: 26px; line-height: 34px; font-weight: 700; }
+
+  .heading-small-regular  { font-size: 20px; line-height: 28px; font-weight: 400; }
+  .heading-small-bold     { font-size: 20px; line-height: 28px; font-weight: 700; }
+
+  .body-large-regular     { font-size: 16px; line-height: 24px; font-weight: 400; }
+  .body-large-bold        { font-size: 16px; line-height: 24px; font-weight: 700; }
+
+  .body-small-regular     { font-size: 14px; line-height: 20px; font-weight: 400; }
+  .body-small-bold        { font-size: 14px; line-height: 20px; font-weight: 700; }
+
+  .body-medium-regular    { font-size: 15px; line-height: 22px; font-weight: 400; }
+
+  /* Responsive Anpassung: etwas kleinere Headings auf Mobile */
+  @media (max-width: 767px) {
+    .heading-xlarge-regular,
+    .heading-xlarge-bold { font-size: 36px; line-height: 44px; }
+
+    .heading-large-regular,
+    .heading-large-bold { font-size: 28px; line-height: 36px; }
+
+    .heading-medium-regular,
+    .heading-medium-bold { font-size: 22px; line-height: 30px; }
+
+    .heading-small-regular,
+    .heading-small-bold { font-size: 18px; line-height: 26px; }
+  }
+
+  /* Title-Hülle – für Headline-Wrapper in Hero-Modulen */
+  .title {
+    margin: 0 0 var(--space-m);
+  }
+
+  .align-left {
+    text-align: left;
+  }
+
+  /* =========================================
+     2. Buttons & Textlinks
+     ========================================= */
+
+  .ai-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 24px;
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 22px;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .ai-button:hover,
+  .ai-button:focus {
+    text-decoration: none;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Standard-Button (neutral) – kann außerhalb der Hero-Module genutzt werden */
+  .button-filled-default {
+    background-color: #005a8c;
+    border-color: #005a8c;
+    color: #ffffff;
+  }
+
+  .button-filled-default:hover,
+  .button-filled-default:focus {
+    background-color: #00486f;
+    border-color: #00486f;
+  }
+
+  /* Brand-Button – Standard in allen Hero-Modulen */
+  .button-filled-brand {
+    background-color: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #ffffff;
+  }
+
+  .button-filled-brand:hover,
+  .button-filled-brand:focus {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+  }
+
+  /* Outline stark – Standard in Image-&-Text-Modulen */
+  .button-outline-strong {
+    background-color: transparent;
+    border-color: var(--color-brand);
+    color: var(--color-brand);
+  }
+
+  .button-outline-strong:hover,
+  .button-outline-strong:focus {
+    background-color: var(--color-brand-soft);
+  }
+
+  /* Outline schwach – dezenter, z. B. für sekundäre CTAs */
+  .button-outline-weak {
+    background-color: transparent;
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-secondary);
+  }
+
+  .button-outline-weak:hover,
+  .button-outline-weak:focus {
+    background-color: #f3f3f3;
+  }
+
+  /* Textlink-Style */
+  .ai-textlink {
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 400;
+    color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .ai-textlink:hover,
+  .ai-textlink:focus {
+    text-decoration: underline;
+  }
+
+  /* =========================================
+     3. Grid & Layout
+     ========================================= */
+
+  .grid {
+    width: 100%;
+  }
+
+  .grid-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .grid-item {
+    box-sizing: border-box;
+  }
+
+  /* Spaltenbreiten – Desktop */
+  .one-whole  { width: 100%; }
+  .one-half   { width: 50%; }
+  .one-third  { width: 33.3333%; }
+  .one-fourth { width: 25%; }
+
+  /* Gutter-Variante: seitliche Innenabstände für Items */
+  .gutter .grid-item {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  /* Mobile-Stacking */
+  @media (max-width: 767px) {
+    .grid-flex {
+      flex-direction: column;
+    }
+
+    .grid-item,
+    .palm-one-whole {
+      width: 100% !important;
+    }
+  }
+
+  /* =========================================
+     4. Abstände & Utilities
+     ========================================= */
+
+  .margin-top-s     { margin-top: var(--space-s); }
+  .margin-top-m     { margin-top: var(--space-m); }
+
+  .margin-bottom-xs { margin-bottom: var(--space-xs); }
+  .margin-bottom-s  { margin-bottom: var(--space-s); }
+  .margin-bottom-m  { margin-bottom: var(--space-m); }
+  .margin-bottom-l  { margin-bottom: var(--space-l); }
+  .margin-bottom-xl { margin-bottom: var(--space-xl); }
+  .margin-bottom-xxl { margin-bottom: var(--space-xxl); }
+
+  .margin-vertical-l {
+    margin-top: var(--space-l);
+    margin-bottom: var(--space-l);
+  }
+
+  .padding-vertical-m {
+    padding-top: var(--space-m);
+    padding-bottom: var(--space-m);
+  }
+
+  .border-top {
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  /* =========================================
+     5. Spacer-Module
+     ========================================= */
+
+  /* LP Spacer – Vertikaler Abstand zwischen Modulen */
+  .lp-spacer-xl {
+    display: block;
+    width: 100%;
+    height: 80px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+  }
+
+  .lp-spacer-l {
+    display: block;
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+  }
+
+  @media (max-width: 767px) {
+    .lp-spacer-xl {
+      height: 50px;
+    }
+
+    .lp-spacer-l {
+      height: 32px;
+    }
+  }
+
+  /* =========================================
+     6. Hero-Module (Hero Split & Hero Full Width)
+     ========================================= */
+
+  .hero-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hero-split__text {
+    max-width: 560px;
+  }
+
+  .hero-split__text p {
+    color: var(--color-text-secondary);
+  }
+
+  .hero-split__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-split__image {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    border-radius: var(--radius-l);
+  }
+
+  @media (max-width: 1024px) {
+    .hero-split {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-split__text {
+      order: 1;
+    }
+
+    .hero-split__visual {
+      order: 2;
+    }
+  }
+
+  .hero-full-width {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-light);
+  }
+
+  .hero-full-width__image {
+    min-height: 260px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-full-width__content {
+    padding: 32px 32px 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.96), #ffffff);
+  }
+
+  .hero-full-width__content p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-m);
+  }
+
+  @media (max-width: 767px) {
+    .hero-full-width__content {
+      padding: 24px 20px 32px;
+    }
+  }
+
+  /* =========================================
+     7. Teaser Two Column (Image & Text)
+     ========================================= */
+
+  .teaser-two-column {
+    margin-bottom: var(--space-xl);
+  }
+
+  .teaser-two-column .grid {
+    width: 100%;
+  }
+
+  .teaser-two-column__media-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .teaser-two-column__media-box {
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .teaser-two-column__media-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .teaser-two-column__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .teaser-two-column__cta {
+    margin-top: var(--space-m);
+  }
+
+  .teaser-two-column--media-right .grid-flex {
+    flex-direction: row;
+  }
+
+  .teaser-two-column--media-left .grid-flex {
+    flex-direction: row;
+  }
+
+  @media (max-width: 767px) {
+    .teaser-two-column--media-right .grid-flex,
+    .teaser-two-column--media-left .grid-flex {
+      flex-direction: column;
+    }
+
+    .teaser-two-column__content {
+      margin-top: var(--space-m);
+    }
+  }
+
+  /* =========================================
+     8. Teaser Row-Module (2/3/4 Column)
+     ========================================= */
+
+  .margin-bottom-xl .grid-item img,
+  .teaser-row-two-column img,
+  .teaser-row-three-column img,
+  .teaser-row-four-column img {
+    border-radius: var(--radius-l);
+    display: block;
+    width: 100%;
+  }
+
+  /* =========================================
+     9. USP-Module & Checkmark-List
+     ========================================= */
+
+  .checkmark-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .checkmark-list__item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--space-m);
+  }
+
+  .checkmark-list__icon {
+    width: 32px;
+    height: 32px;
+    margin-right: var(--space-m);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .checkmark-list__icon img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .checkmark-list__text {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  /* =========================================
+     10. Steps-Module (3 & 4 Column)
+     ========================================= */
+
+  .steps-three-column__steps,
+  .steps-four-column__steps {
+    width: 100%;
+  }
+
+  .steps-three-column__step-wrapper,
+  .steps-four-column__step-wrapper {
+    height: 100%;
+  }
+
+  .steps-three-column__step,
+  .steps-four-column__step {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-m);
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+    height: 100%;
+  }
+
+  .steps-three-column__step-header,
+  .steps-four-column__step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-s);
+  }
+
+  .steps-three-column__step-number,
+  .steps-four-column__step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-brand-soft);
+    color: var(--color-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: var(--space-s);
+  }
+
+  .steps-three-column__step-line,
+  .steps-four-column__step-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--color-brand-soft);
+  }
+
+  .steps-three-column__step-title,
+  .steps-four-column__step-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .steps-three-column__step-text,
+  .steps-four-column__step-text {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  /* =========================================
+     11. KPI-Three-Column (animated)
+     ========================================= */
+
+  .kpi-three-column {
+    padding: 24px 0;
+  }
+
+  .kpi-three-column__item {
+    text-align: left;
+  }
+
+  .kpi-three-column__number {
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+  }
+
+  .kpi-three-column__label {
+    margin-bottom: var(--space-xs);
+  }
+
+  .kpi-three-column__item p {
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  @media (max-width: 767px) {
+    .kpi-three-column__item {
+      margin-bottom: var(--space-l);
+    }
+  }
+
+  /* =========================================
+     12. eKomi-Reviews
+     ========================================= */
+
+  .ekomi-reviews__badge-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: var(--space-m);
+  }
+
+  .ekomi-reviews__badge {
+    height: 56px;
+    width: auto;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .ekomi-reviews__badge.is-active,
+  .ekomi-reviews__badge--silver.is-active {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  .ekomi-reviews__headline {
+    margin-top: 0;
+  }
+
+  .ekomi-reviews__intro {
+    margin-bottom: var(--space-l);
+    color: var(--color-text-secondary);
+  }
+
+  .ekomi-reviews__list {
+    margin-top: var(--space-m);
+  }
+
+  .ekomi-reviews__item {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-m);
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+    height: 100%;
+  }
+
+  .ekomi-reviews__meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-s);
+  }
+
+  .ekomi-reviews__avatar {
+    margin-right: var(--space-s);
+  }
+
+  .ekomi-reviews__avatar-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .ekomi-reviews__user {
+    font-weight: 700;
+  }
+
+  .ekomi-reviews__date {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .ekomi-reviews__text {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-m);
+  }
+
+  .ekomi-reviews__rating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ekomi-reviews__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ekomi-reviews__star {
+    width: 22px; /* ~20 % größer als Basisgröße */
+    height: auto;
+    display: block;
+  }
+
+  .ekomi-reviews__score {
+    font-weight: 700;
+  }
+
+  /* =========================================
+     13. Accordion / FAQ
+     ========================================= */
+
+  .accordion .accordion__indicator {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: var(--space-s);
+  }
+
+  .accordion dt {
+    cursor: pointer;
+  }
+
+  .accordion p.body-large-regular {
+    margin: 0;
+  }
+
+  /* =========================================
+     14. Demos: Typo, Grid, Buttons
+     ========================================= */
+
+  /* Typo-Demo – keine speziellen Styles nötig, Tokens reichen aus */
+
+  /* Grid-Demo: einfache farbige Kästen für Visualisierung */
+  .grid-demo-box {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  /* Buttons-Demo verwendet reguläre Button-Klassen */
+
+  /* =========================================
+     15. Sonstiges
+     ========================================= */
+
+  .navitem {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .rteListFix {
+    display: block;
+  }
+
+</style>
