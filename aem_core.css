@@ -371,6 +371,9 @@
     outline-offset: 2px;
     text-decoration: none !important;
   }
+.ai-button:hover {
+  text-decoration: none !important;
+}
 
   .ai-button[disabled],
   .ai-button.is-disabled {
