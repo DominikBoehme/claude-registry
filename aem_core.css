@@ -369,6 +369,7 @@
   .ai-button:focus {
     outline: 2px solid #333333;
     outline-offset: 2px;
+    text-decoration: none;
   }
 
   .ai-button[disabled],
@@ -389,6 +390,7 @@
     background-color: #484848;
     color: #ffffff;
     border-color: #484848;
+    text-decoration: none;
   }
 
   .button-filled-brand {
@@ -402,6 +404,7 @@
     background-color: #55e6cb;
     color: #333333;
     border-color: #55e6cb;
+    text-decoration: none;
   }
 
   .button-outline-strong {
@@ -415,6 +418,7 @@
     background-color: #e8e5e3;
     color: #333333;
     border-color: #333333;
+    text-decoration: none;
   }
 
   .button-outline-weak {
@@ -428,6 +432,7 @@
     background-color: #e8e5e3;
     color: #333333;
     border-color: #333333;
+    text-decoration: none;
   }
 
   .ai-textlink {
